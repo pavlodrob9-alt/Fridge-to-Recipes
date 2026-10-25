@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html lang="en" class="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CulinaryAI</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = { darkMode: 'class' }
+    </script>
+    <style>
+        .diet-chip.active {
+            background-color: #f59e0b !important;
+            color: #ffffff !important;
+            border-color: #d97706 !important;
+        }
+    </style>
+</head>
+<body class="bg-slate-900 text-slate-100 min-h-screen transition-colors duration-300">
+<div class="max-w-7xl mx-auto px-4 py-8">
+
+    <!-- Header -->
+    <header class="flex items-center justify-between pb-6 border-b border-slate-700/50 mb-8">
+        <div class="flex items-center gap-3">
+            <span class="text-3xl">🍲</span>
+            <h1 class="text-2xl font-bold bg-gradient-to-r from-amber-400 to-orange-500 bg-clip-text text-transparent">CulinaryAI</h1>
+        </div>
+        <button id="themeToggle" onclick="toggleTheme()" class="p-2.5 rounded-xl bg-slate-800 border border-slate-700 hover:bg-slate-700 text-xl transition">
+            🌙
+        </button>
+    </header>
+
+    <div class="grid grid-cols-1 lg:grid-cols-12 gap-8">
+
+        <!-- Left Panel -->
+        <div class="lg:col-span-4 bg-slate-800/80 p-6 rounded-2xl border border-slate-700/50 shadow-xl space-y-6">
+            <h2 class="text-lg font-semibold flex items-center gap-2 text-slate-200">
+                ⚙️ Configuration
+            </h2>
+
+            <!-- Ingredients Input (Чисте поле без кнопок) -->
+            <div>
+                <label class="text-xs font-semibold text-slate-400 uppercase tracking-wider block mb-2">Ingredients</label>
+                <textarea id="ingredients" rows="4" class="w-full bg-slate-900 border border-slate-700 rounded-xl p-3 text-sm focus:outline-none focus:ring-2 focus:ring-amber-500 text-slate-100 placeholder-slate-500" placeholder="Введіть ваші продукти через кому (наприклад: chicken, potatoes, garlic, sour cream)..."></textarea>
+            </div>
+
+            <!-- Meal & Cuisine -->
+            <div class="grid grid-cols-2 gap-4">
+                <div>
+                    <label class="text-xs font-semibold text-slate-400 uppercase tracking-wider block mb-2">Meal</label>
+                    <select id="mealType" class="w-full bg-slate-900 border border-slate-700 rounded-xl p-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-amber-500 text-slate-100">
+                        <option value="Any">Any</option>
+                        <option value="Breakfast">Breakfast</option>
+                        <option value="Lunch">Lunch</option>
+                        <option value="Dinner">Dinner</option>
+                        <option value="Snack">Snack</option>
+                    </select>
+                </div>
+                <div>
+                    <label class="text-xs font-semibold text-slate-400 uppercase tracking-wider block mb-2">Cuisine</label>
+                    <select id="cuisine" class="w-full bg-slate-900 border border-slate-700 rounded-xl p-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-amber-500 text-slate-100">
+                        <option value="Any">Any</option>
+                        <option value="Ukrainian">Ukrainian (Українська)</option>
+                        <option value="American">American (USA)</option>
+                        <option value="Italian">Italian</option>
+                        <option value="French">French</option>
+                        <option value="Mexican">Mexican</option>
+                        <option value="Asian">Asian</option>
+                        <option value="Japanese">Japanese</option>
+                        <option value="Indian">Indian</option>
+                        <option value="Mediterranean">Mediterranean</option>
+                        <option value="Spanish">Spanish</option>
+                    </select>
+                </div>
+            </div>
+
+            <!-- Dietary Restrictions -->
+            <div>
+                <label class="text-xs font-semibold text-slate-400 uppercase tracking-wider block mb-2">Dietary Restrictions</label>
+                <div class="flex flex-wrap gap-2">
+                    <button type="button" onclick="toggleDiet(this)" class="diet-chip bg-slate-900 border border-slate-700 text-xs px-3 py-1.5 rounded-lg transition">Vegan</button>
+                    <button type="button" onclick="toggleDiet(this)" class="diet-chip bg-slate-900 border border-slate-700 text-xs px-3 py-1.5 rounded-lg transition">Gluten-Free</button>
+                    <button type="button" onclick="toggleDiet(this)" class="diet-chip bg-slate-900 border border-slate-700 text-xs px-3 py-1.5 rounded-lg transition">Keto</button>
+                    <button type="button" onclick="toggleDiet(this)" class="diet-chip bg-slate-900 border border-slate-700 text-xs px-3 py-1.5 rounded-lg transition">Vegetarian</button>
+                    <button type="button" onclick="toggleDiet(this)" class="diet-chip bg-slate-900 border border-slate-700 text-xs px-3 py-1.5 rounded-lg transition">Dairy-Free</button>
+                    <button type="button" onclick="toggleDiet(this)" class="diet-chip bg-slate-900 border border-slate-700 text-xs px-3 py-1.5 rounded-lg transition">Low-Carb</button>
+                    <button type="button" onclick="toggleDiet(this)" class="diet-chip bg-slate-900 border border-slate-700 text-xs px-3 py-1.5 rounded-lg transition">Nut-Free</button>
+                    <button type="button" onclick="toggleDiet(this)" class="diet-chip bg-slate-900 border border-slate-700 text-xs px-3 py-1.5 rounded-lg transition">Paleo</button>
+                    <button type="button" onclick="toggleDiet(this)" class="diet-chip bg-slate-900 border border-slate-700 text-xs px-3 py-1.5 rounded-lg transition">Halal</button>
+                    <button type="button" onclick="toggleDiet(this)" class="diet-chip bg-slate-900 border border-slate-700 text-xs px-3 py-1.5 rounded-lg transition">Kosher</button>
+                </div>
+            </div>
+
+            <!-- Max Time & Servings -->
+            <div class="space-y-4">
+                <div>
+                    <div class="flex justify-between text-xs font-semibold text-slate-400 mb-1">
+                        <span>MAX TIME</span>
+                        <span id="timeVal" class="text-amber-400 font-bold">45m</span>
+                    </div>
+                    <input type="range" id="maxTime" min="10" max="120" value="45" oninput="document.getElementById('timeVal').innerText = this.value + 'm'" class="w-full accent-amber-500">
+                </div>
+                <div>
+                    <label class="text-xs font-semibold text-slate-400 uppercase tracking-wider block mb-1">Servings</label>
+                    <input type="number" id="servings" value="2" min="1" class="w-full bg-slate-900 border border-slate-700 rounded-xl p-2.5 text-sm text-slate-100">
+                </div>
+            </div>
+
+            <button type="button" onclick="generateRecipes()" class="w-full bg-gradient-to-r from-amber-500 to-orange-600 hover:from-amber-600 hover:to-orange-700 text-white font-bold py-3.5 rounded-xl transition shadow-lg shadow-orange-500/20">
+                Generate Masterpieces
+            </button>
+        </div>
+
+        <!-- Right Panel -->
+        <div class="lg:col-span-8 space-y-6">
+            <div id="resultsContainer">
+                <div class="bg-slate-800/40 border border-slate-800 rounded-2xl p-12 text-center text-slate-400 space-y-3">
+                    <span class="text-5xl block">🍽️</span>
+                    <p class="text-lg font-medium text-slate-300">Ready for your first masterpiece?</p>
+                    <p class="text-sm">Configure your preferences and let DeepSeek generate gourmet recipes.</p>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+<script>
+    function toggleTheme() {
+        const html = document.documentElement;
+        const btn = document.getElementById('themeToggle');
+        if (html.classList.contains('dark')) {
+            html.classList.remove('dark');
+            document.body.className = "bg-slate-100 text-slate-800 min-h-screen transition-colors duration-300";
+            btn.innerText = '☀️';
+        } else {
+            html.classList.add('dark');
+            document.body.className = "bg-slate-900 text-slate-100 min-h-screen transition-colors duration-300";
+            btn.innerText = '🌙';
+        }
+    }
+
+    function toggleDiet(btn) {
+        btn.classList.toggle('active');
+    }
+
+    async function generateRecipes() {
+        const ingredients = document.getElementById('ingredients').value.trim();
+        if (!ingredients) {
+            alert('Please enter at least one ingredient!');
+            return;
+        }
+
+        const activeDiets = Array.from(document.querySelectorAll('.diet-chip.active')).map(b => b.innerText);
+        const container = document.getElementById('resultsContainer');
+
+        container.innerHTML = `
+        <div class="bg-slate-800/80 border border-slate-700 rounded-2xl p-12 text-center space-y-4">
+          <div class="inline-block animate-spin text-4xl">👨‍🍳</div>
+          <h3 class="text-lg font-semibold text-slate-200">DeepSeek AI is creating your recipes...</h3>
+          <p class="text-sm text-slate-400">Please wait a few seconds.</p>
+        </div>
+      `;
+
+        try {
+            const res = await fetch('/api/generate', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                    ingredients: ingredients,
+                    cuisine: document.getElementById('cuisine').value,
+                    mealType: document.getElementById('mealType').value,
+                    dietary: activeDiets.join(', ') || 'None',
+                    maxTime: document.getElementById('maxTime').value,
+                    servings: document.getElementById('servings').value
+                })
+            });
+
+            const data = await res.json();
+            if (data && data.success && Array.isArray(data.recipes) && data.recipes.length > 0) {
+                renderRecipes(data.recipes);
+            } else {
+                container.innerHTML = `<div class="p-6 bg-red-500/20 border border-red-500/40 text-red-300 rounded-xl">Error: ${data.error || 'Failed to generate recipes.'}</div>`;
+            }
+        } catch (e) {
+            container.innerHTML = `<div class="p-6 bg-red-500/20 border border-red-500/40 text-red-300 rounded-xl">Network error: ${e.message}</div>`;
+        }
+    }
+
+    function renderRecipes(recipes) {
+        const container = document.getElementById('resultsContainer');
+        container.innerHTML = '';
+
+        recipes.forEach((r) => {
+            const card = document.createElement('div');
+            card.className = "bg-slate-800/90 border border-slate-700/60 rounded-2xl p-6 shadow-xl space-y-4 mb-6";
+
+            const ingsHtml = (r.ingredients || []).map(i => {
+                const name = typeof i === 'string' ? i : (i.text || i.name || 'Ingredient');
+                const isAvail = typeof i === 'object' ? (i.available ?? true) : true;
+                return `<span class="inline-flex items-center gap-1 text-xs px-2.5 py-1 rounded-full font-medium ${isAvail ? 'bg-emerald-500/10 text-emerald-400 border border-emerald-500/20' : 'bg-rose-500/10 text-rose-400 border border-rose-500/20'}">
+            ${isAvail ? '✅ AVAILABLE' : '❌ MISSING'} - ${name}
+          </span>`;
+            }).join(' ');
+
+            const stepsHtml = (r.instructions || []).map((step, i) => `
+          <li class="flex gap-3 text-sm text-slate-300">
+            <span class="font-bold text-amber-400 flex-shrink-0">${i + 1}.</span>
+            <span class="leading-relaxed">${step}</span>
+          </li>
+        `).join('');
+
+            card.innerHTML = `
+          <div class="flex items-start justify-between border-b border-slate-700/40 pb-4">
+            <div>
+              <h3 class="text-xl font-bold text-slate-100">${r.title || 'Gourmet Dish'}</h3>
+              <p class="text-xs text-slate-400 mt-1">⏱️ Cook Time: ${r.cook_time || '25 mins'} | 📊 Difficulty: ${r.difficulty || 'Easy'}</p>
+            </div>
+          </div>
+          <div>
+            <h4 class="text-xs font-semibold text-slate-400 uppercase tracking-wider mb-2">Ingredients Needed</h4>
+            <div class="flex flex-wrap gap-2">${ingsHtml}</div>
+          </div>
+          <div>
+            <h4 class="text-xs font-semibold text-slate-400 uppercase tracking-wider mb-2">Step-by-step Chef Instructions</h4>
+            <ul class="space-y-3">${stepsHtml}</ul>
+          </div>
+        `;
+            container.appendChild(card);
+        });
+    }
+</script>
+</body>
+</html>
